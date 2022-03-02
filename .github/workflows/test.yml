@@ -38,4 +38,4 @@ jobs:
       if: always() # Always run this step (even if the tests failed)
       with:
         name: test_output
-        path: ./**/test_output_*/
+        path: ./**/output_*/*.tap
