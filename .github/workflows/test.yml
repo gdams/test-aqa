@@ -9,11 +9,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        suite: [functional, openjdk, system, perf]
         target: [sanity, extended]
+        suite: [functional, openjdk, system, perf]
         include:
-          - suite: functional
-            target: special  
+          - target: special  
+            suite: functional
 
     steps:
     # Install Java to be tested (you could alternatively build your binary here).
@@ -22,10 +22,10 @@ jobs:
         distribution: 'temurin'
         java-version: '11'
 
-    - name: Run AQA Tests - ${{ matrix.suite }}.${{ matrix.target }}
+    - name: Run AQA Tests - ${{ matrix.target }}.${{ matrix.suite }}
       uses: adoptium/run-aqa@v2
       with: 
         version: '11'
         jdksource: 'install-jdk'
         build_list: ${{ matrix.suite }}
-        target: ${{ matrix.target }}
+        target: ${{ matrix.target }}.${{ matrix.suite }}
