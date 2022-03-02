@@ -28,4 +28,4 @@ jobs:
         version: '11'
         jdksource: 'install-jdk'
         build_list: ${{ matrix.suite }}
-        target: ${{ matrix.target }}.${{ matrix.suite }}
+        target: _${{ matrix.target }}.${{ matrix.suite }}
