@@ -1,7 +1,7 @@
 name: Run AQAvit
 
 on:
-  workflow_dispatch:
+  workflow_dispatch: # Allows the job to be manually triggered
 
 jobs:
   run_aqa:
@@ -26,6 +26,6 @@ jobs:
       uses: adoptium/run-aqa@v2
       with: 
         version: '11'
-        jdksource: 'customized'
+        jdksource: 'install-jdk'
         build_list: ${{ matrix.suite }}
         target: ${{ matrix.target }}
