@@ -1,4 +1,4 @@
-name: AQA
+name: Run AQAvit
 
 on:
   workflow_dispatch:
@@ -27,5 +27,5 @@ jobs:
       with: 
         version: '11'
         jdksource: 'customized'
-        build_list: ${{ suite }}
-        target: ${{ target }}
+        build_list: ${{ matrix.suite }}
+        target: ${{ matrix.target }}
