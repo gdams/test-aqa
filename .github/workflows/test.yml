@@ -1,0 +1,31 @@
+name: AQA
+
+on:
+  workflow_dispatch:
+
+jobs:
+  run_aqa:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        suite: [functional, openjdk, system, perf]
+        target: [sanity, extended]
+        include:
+          - suite: functional
+            target: special  
+
+    steps:
+    # Install Java to be tested (you could alternatively build your binary here).
+    - uses: actions/setup-java@v2
+      with:
+        distribution: 'temurin'
+        java-version: '11'
+
+    - name: Run AQA Tests - ${{ matrix.suite }}.${{ matrix.target }}
+      uses: adoptium/run-aqa@v2
+      with: 
+        version: '11'
+        jdksource: 'customized'
+        build_list: ${{ suite }}
+        target: ${{ target }}
