@@ -3,6 +3,9 @@ name: Run AQAvit
 on:
   workflow_dispatch: # Allows the job to be manually triggered
 
+env:
+  USE_TESTENV_PROPERTIES: true
+
 jobs:
   run_aqa:
     runs-on: ubuntu-latest
@@ -12,7 +15,7 @@ jobs:
         target: [sanity, extended]
         suite: [functional, openjdk, system, perf]
         include:
-          - target: special  
+          - target: special
             suite: functional
 
     steps:
@@ -27,5 +30,12 @@ jobs:
       with: 
         version: '11'
         jdksource: 'install-jdk'
+        aqa-testsRepo: 'adoptium/aqa-tests:v0.8.0-release' # Make sure this branch is set to the latest release branch
         build_list: ${{ matrix.suite }}
         target: _${{ matrix.target }}.${{ matrix.suite }}
+
+    - uses: actions/upload-artifact@v2
+      if: always() # Always run this step (even if the tests failed)
+      with:
+        name: test_output
+        path: ./**/test_output_*/
