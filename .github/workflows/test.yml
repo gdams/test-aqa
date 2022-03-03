@@ -27,7 +27,7 @@ jobs:
       with: 
         version: '11'
         jdksource: 'customized'
-        customizedSdkUrl: "${{ env.BINARY_SDK }} ${{ env.NATIVE_LIBS }}"
+        customizedSdkUrl: ${{ env.BINARY_SDK }} ${{ env.NATIVE_LIBS }}
         aqa-testsRepo: 'adoptium/aqa-tests:v0.8.0-release' # Make sure this branch is set to the latest release branch
         build_list: ${{ matrix.suite }}
         target: _${{ matrix.target }}.${{ matrix.suite }}
