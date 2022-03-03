@@ -5,6 +5,8 @@ on:
 
 env:
   USE_TESTENV_PROPERTIES: true
+  BINARY_SDK: https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.14.1%2B1/OpenJDK11U-jdk_x64_linux_hotspot_11.0.14.1_1.tar.gz
+  NATIVE_LIBS: https://ci.adoptopenjdk.net/job/build-scripts/job/jobs/job/jdk11u/job/jdk11u-linux-x64-hotspot/lastSuccessfulBuild/artifact/workspace/target/OpenJDK11U-testimage_x64_linux_hotspot_2022-02-12-17-06.tar.gz
 
 jobs:
   run_aqa:
@@ -19,17 +21,13 @@ jobs:
             suite: functional
 
     steps:
-    # Install Java to be tested (you could alternatively build your binary here).
-    - uses: actions/setup-java@v2
-      with:
-        distribution: 'temurin'
-        java-version: '11'
 
     - name: Run AQA Tests - ${{ matrix.target }}.${{ matrix.suite }}
       uses: adoptium/run-aqa@v2
       with: 
         version: '11'
-        jdksource: 'install-jdk'
+        jdksource: 'customized'
+        customizedSdkUrl: "${BINARY_SDK} ${NATIVE_LIBS}"
         aqa-testsRepo: 'adoptium/aqa-tests:v0.8.0-release' # Make sure this branch is set to the latest release branch
         build_list: ${{ matrix.suite }}
         target: _${{ matrix.target }}.${{ matrix.suite }}
